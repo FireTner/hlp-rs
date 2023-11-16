@@ -1,0 +1,36 @@
+#pragma once
+
+#include <x86intrin.h>
+#include <stdbool.h>
+#include <stdio.h>
+
+typedef __m128i vec;
+typedef char __attribute__ ((aligned (16))) int8x16[16];
+
+vec goal;
+int8x16 goalArray;
+
+inline void vec_store(const vec source, int8x16 *destination) {
+  _mm_store_si128((__m128i *)destination, source);
+}
+
+inline vec vec_load(int8x16 *source) {
+  return _mm_load_si128((__m128i *)&source);
+}
+
+inline bool vec_equal(const vec a, const vec b) {
+  const vec c = _mm_xor_si128(a, b);
+  return _mm_test_all_zeros(c, c);
+}
+
+inline vec vec_shuffle(const vec value, const vec mask) {
+  return _mm_shuffle_epi8(value, mask);
+}
+
+void vec_print(const vec a) {
+  int8x16 b;
+  vec_store(a, &b);
+
+  printf("%1x%1x%1x%1x%1x%1x%1x%1x%1x%1x%1x%1x%1x%1x%1x%1x\n",
+    b[0], b[1], b[2], b[3], b[4], b[5], b[6], b[7], b[8], b[9], b[10], b[11], b[12], b[13], b[14], b[15]);
+}
