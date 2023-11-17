@@ -69,6 +69,15 @@ void genLut(int targetuc) {
         if(vec_equal(thisLayer[k], output2)) goto end2;
       }
 
+      for(int x = 0; x < i; x++) {
+        for(int y = 0; y < indexTableSize[x]; y++) {
+          const vec a = layer[x];
+          const vec b = vec_shuffle(layer[indexTable[x][y]], a);
+
+          if(vec_equal(b, output2)) goto end2;
+        }
+      }
+
       thisLayer[thisSize] = output2;
       indexTable[i][thisSize++] = j;
       end2: continue;
