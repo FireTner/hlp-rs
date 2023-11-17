@@ -5,12 +5,14 @@
 
 #include "vec.h"
 
-const int cacheMask = 1023;
+#define CACHE_SIZE 1 << 10
+
+const int cacheMask = CACHE_SIZE - 1;
 
 struct {
   vec key;
   int depth;
-} cache[1024];
+} cache[CACHE_SIZE];
 
 inline void clearCache() {
   memset(&cache, 0, sizeof(cache));

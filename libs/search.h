@@ -7,20 +7,17 @@
 #include <time.h>
 
 inline vec applyLayer(const vec input, const int index) {
-  char map[16] = {[0 ... 15] = -1};
   vec result = vec_shuffle(layer[index], input);
 
   int8x16 resultArray;
   vec_store(result, &resultArray);
   
   for(int i = 0; i < 16; i++) {
-    const char ri = resultArray[i];
-    const char x = map[ri];
-  
-    if(x != -1 && x != goalArray[i])
-      return _mm_setzero_si128();
+    const vec a = _mm_set1_epi8(resultArray[i]);
+    const short b = _mm_cmpeq_epi8_mask(result, a);
+    const short c = goalMagic[i];
     
-    map[ri] = goalArray[i];
+    if(b & c) return _mm_setzero_si128();
   }
 
   return result;

@@ -39,15 +39,13 @@ void genLut(int targetuc) {
     const vec output = layerf(start, conf);
     
     if(vec_equal(start, output)) continue;
-    if(vec_equal(start, _mm_setzero_si128())) continue;
+    if(_mm_test_all_zeros(output, output)) continue;
     if(ucount(output) < targetuc) continue;
     
     for(int i = 0; i < layerSize; i++) {
       if(vec_equal(layer[i], output)) goto end;
     }
 
-    // printf("%4d: ", (conf >> 8) & 7);
-    // vec_print(output);
     layerConf[layerSize] = conf;
     indexTable[799][layerSize] = layerSize;
     layer[layerSize++] = output;
@@ -63,10 +61,8 @@ void genLut(int targetuc) {
 
     for(int j = 0; j < layerSize; j++) {
       const vec output2 = vec_shuffle(layer[j], output);
-      // vec_print(output2);
 
       if(vec_equal(start, output2)) continue;
-      if(vec_equal(start, _mm_setzero_si128())) continue;
       if(ucount(output2) < targetuc) continue;
 
       for(int k = 0; k < thisSize; k++) {
