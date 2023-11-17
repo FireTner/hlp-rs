@@ -4,6 +4,7 @@
 #include "genlut.h"
 #include "cache.h"
 #include "applylayer.h"
+#include "lastlayer.h"
 
 #include <time.h>
 
