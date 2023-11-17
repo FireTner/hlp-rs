@@ -17,7 +17,7 @@ bool dfs(const vec input, const int depth, const int prevIndex) {
     const int index = indexTable[prevIndex][i];
     const vec output = applyLayer(input, index);
 
-    if(vec_equal(output, _mm_setzero_si128())) continue;
+    if(_mm_test_all_zeros(output, output)) continue;
     if(dfs(output, depth + 1, index)) return true;
   }
 
@@ -32,8 +32,8 @@ void search() {
   while(currentLayer < 42) {
     clearCache();
     if(dfs(start, 0, 799)) break;
-    printf("\t%d layer searched in %.0f ms\n", currentLayer, clock() / (CLOCKS_PER_SEC / 1000) - startTime);
     currentLayer++;
+    printf("\t%d layer searched in %.0f ms\n", currentLayer, clock() / (CLOCKS_PER_SEC / 1000) - startTime);
   }
 
   printf("Solution is %d deep\n", currentLayer + 1);
