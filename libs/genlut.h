@@ -65,6 +65,10 @@ void genLut(int targetuc) {
       if(vec_equal(start, output2)) continue;
       if(ucount(output2) < targetuc) continue;
 
+      for(int k = 0; k < layerSize; k++) {
+        if(vec_equal(layer[k], output2)) goto end2;
+      }
+
       for(int k = 0; k < thisSize; k++) {
         if(vec_equal(thisLayer[k], output2)) goto end2;
       }
