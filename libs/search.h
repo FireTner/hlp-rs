@@ -13,6 +13,7 @@ bool dfs(const vec input, const int depth, const int prevIndex) {
   if(depth == currentLayer) return lastLayer(input, prevIndex);
   if(inCache(input, depth)) return false;
 
+  __builtin_prefetch(layer);
   for(int i = 0; i < indexTableSize[prevIndex]; i++) {
     const int index = indexTable[prevIndex][i];
     const vec output = applyLayer(input, index);
