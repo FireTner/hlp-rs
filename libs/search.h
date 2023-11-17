@@ -64,5 +64,5 @@ void search() {
   }
 
   printf("Solution is %d deep\n", currentLayer + 1);
-  printf("found in %.0f ms\n", clock() / (CLOCKS_PER_SEC / 1000) - startTime);
+  printf("Found in %.0f ms\n", clock() / (CLOCKS_PER_SEC / 1000) - startTime);
 }
