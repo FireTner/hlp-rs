@@ -5,7 +5,7 @@
 
 #include "vec.h"
 
-#define CACHE_SIZE 1 << 10
+#define CACHE_SIZE 1 << 18
 
 const int cacheMask = CACHE_SIZE - 1;
 
@@ -20,8 +20,7 @@ inline void clearCache() {
 
 inline bool inCache(const vec value, const int depth) {
   uint64_t pos = 0;
-  pos = _mm_crc32_u64(_mm_extract_epi64(value, 0), pos);
-  pos = _mm_crc32_u64(_mm_extract_epi64(value, 1), pos);
+  pos = _mm_crc32_u64(_mm_extract_epi64(value, 1), _mm_extract_epi64(value, 0));
 
   pos &= cacheMask;
   
