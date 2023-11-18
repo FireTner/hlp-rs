@@ -19,17 +19,16 @@ inline void clearCache() {
 }
 
 inline bool inCache(const vec value, const int depth) {
-  const vec shiftedValue = _mm_bsrli_si128(value, 60);
-  const vec oredvalue = _mm_or_si128(shiftedValue, value);
-  const uint64_t x = _mm_cvtsi128_si64(value);
-  uint64_t h = x * 0x9E3779B97F4A7C15L;
-  uint32_t pos = (h ^= h >> 32) & cacheMask;
+  uint64_t pos = 0;
+  pos = _mm_crc32_u64(_mm_extract_epi64(value, 0), pos);
+  pos = _mm_crc32_u64(_mm_extract_epi64(value, 1), pos);
 
-  vec cachedValue = cache[pos].key;
+  pos &= cacheMask;
   
   if(cache[pos].depth <= depth && vec_equal(cache[pos].key, value)) return true;
 
   cache[pos].depth = depth;
   cache[pos].key = value;
+
   return false;
 }
