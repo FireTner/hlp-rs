@@ -9,7 +9,7 @@ inline vec applyLayer(const vec input, const int index) {
   int8x16 resultArray;
   vec_store(result, &resultArray);
   
-  for(int i = 0; i < 16; i++) {
+  for(int i = 0; i < 15; i++) {
     const vec a = _mm_set1_epi8(resultArray[i]);
     const short b = _mm_cmpeq_epi8_mask(result, a);
     const short c = goalMagic[i];
