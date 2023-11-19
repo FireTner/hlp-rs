@@ -5,7 +5,7 @@
 
 #include "vec.h"
 
-#define CACHE_SIZE 1 << 18
+#define CACHE_SIZE (1 << 25)
 
 const int cacheMask = CACHE_SIZE - 1;
 
