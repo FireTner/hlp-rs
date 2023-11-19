@@ -19,9 +19,11 @@ inline void clearCache() {
 }
 
 inline bool inCache(const vec key, const int depth) {
-  uint64_t pos = _mm_extract_epi64(key, 1) | (_mm_cvtsi128_si64(key) << 4);
-  pos *= 0x9E3779B97F4A7C15L;
-  pos ^= pos >> 32; 
+  uint32_t pos = 0; 
+  for(int i = 0; i < 4; i++) {
+    pos = _mm_crc32_u32(pos, _mm_extract_epi32(key, i));
+  }
+
   pos &= cacheMask;
 
   const bool a = cache[pos].depth <= depth && vec_equal(cache[pos].key, key);
