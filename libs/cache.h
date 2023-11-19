@@ -20,13 +20,12 @@ inline void clearCache() {
 
 inline bool inCache(const vec key, const int depth) {
   uint64_t pos = _mm_crc32_u64(_mm_extract_epi64(key, 1), _mm_extract_epi64(key, 0));
-
   pos &= cacheMask;
 
-  if(cache[pos].depth <= depth && vec_equal(cache[pos].key, key)) return true;
+  const bool a = (cache[pos].depth <= depth && vec_equal(cache[pos].key, key));
 
   cache[pos].depth = depth;
   cache[pos].key = key;
-
-  return false;
+  
+  return a;
 }
