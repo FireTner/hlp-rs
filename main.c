@@ -14,13 +14,13 @@ int main() {
   vec_print(goal);
   
   int goal_uc = ucount(goal);
-  printf("Goal's unicount: %d\n", goal_uc);
+  printf("goal's unicount: %d\n\n", goal_uc);
 
   genLut(goal_uc);
   printf("Generated look up table with the size: %d\n", layerSize);
   
-  genMagic();
+  genMagic();  
   search();
-  
+
   return 0;
 }
