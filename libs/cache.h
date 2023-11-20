@@ -28,10 +28,6 @@ inline bool inCache(const vec key, const int depth) {
 
   const bool a = cache[pos].depth <= depth && vec_equal(cache[pos].key, key);
 
-  // if(a) hit++;
-  // else if(vec_equal(cache[pos].key, _mm_setzero_si128())) new++;
-  // else miss++;
-
   cache[pos].depth = depth;
   cache[pos].key = key;
   
