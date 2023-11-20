@@ -40,7 +40,6 @@ void genLut(int targetuc) {
     
     if(vec_equal(start, output)) continue;
     if(_mm_test_all_zeros(output, output)) continue;
-    if(ucount(output) < targetuc) continue;
     
     for(int i = 0; i < layerSize; i++) {
       if(vec_equal(layer[i], output)) goto end;
@@ -65,7 +64,6 @@ void genLut(int targetuc) {
       const vec output2 = vec_shuffle(layer[j], output);
 
       if(vec_equal(start, output2)) continue;
-      if(ucount(output2) < targetuc) continue;
 
       for(int k = 0; k < layerSize; k++) {
         if(vec_equal(layer[k], output2)) goto end2;
