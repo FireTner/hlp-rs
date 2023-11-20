@@ -11,9 +11,15 @@ inline vec applyLayer(const vec input, const int index) {
   
   for(int i = 0; i < 15; i++) {
     const vec a = _mm_set1_epi8(resultArray[i]);
-    const short b = _mm_cmpeq_epi8_mask(result, a);
-    const short c = goalMagic[i];
-    
+  
+  #if (defined __AVX512BW__ && defined __AVX512VL__)
+    const int b = _mm_cmpeq_epi8_mask(result, a);
+  #else
+    const int b = _mm_movemask_epi8(_mm_cmpeq_epi8(result, a));
+  #endif
+
+    const int c = goalMagic[i];
+
     if(b & c) return _mm_setzero_si128();
   }
 
