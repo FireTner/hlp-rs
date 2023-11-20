@@ -8,9 +8,16 @@
 
 #include <time.h>
 
+#define MAX_DEPTH (43)
+
+int result[MAX_DEPTH] = { [0 ... MAX_DEPTH - 1] = 0 };
 int currentLayer = 0;
 bool dfs(const vec input, const int depth, const int prevIndex) {
-  if(depth == currentLayer) return lastLayer(input, prevIndex);
+  if(depth == currentLayer) {
+    const bool a = lastLayer(input, prevIndex);
+    result[depth] = lastResult;
+    return a;
+  }
   if(inCache(input, depth)) return false;
 
   __builtin_prefetch(layer);
@@ -19,7 +26,10 @@ bool dfs(const vec input, const int depth, const int prevIndex) {
     const vec output = applyLayer(input, index);
 
     if(_mm_test_all_zeros(output, output)) continue;
-    if(dfs(output, depth + 1, index)) return true;
+    if(dfs(output, depth + 1, index)) {
+      result[depth] = index;
+      return true;
+    }
   }
 
   return false;
@@ -30,7 +40,7 @@ void search() {
   float startTime = clock() / (CLOCKS_PER_SEC / 1000);
   char outstr[30];
 
-  while(currentLayer < 42) {
+  while(currentLayer < MAX_DEPTH) {
     clearCache();
 
     if(dfs(start, 0, 799)) break;
@@ -49,4 +59,9 @@ void search() {
 
   printf("Solution is %d deep\n", currentLayer + 1);
   printf("Found in %.0f ms\n", clock() / (CLOCKS_PER_SEC / 1000) - startTime);
+
+  for(int i = 0; i <= currentLayer; i++) {
+    const int conf = layerConf[result[i]];
+    printf("%d: %3x\n", i, conf);
+  }
 }
