@@ -46,6 +46,8 @@ void genLut(int targetuc) {
       if(vec_equal(layer[i], output)) goto end;
     }
 
+    if(!complexCheck(output)) continue;
+
     layerConf[layerSize] = conf;
     indexTable[799][layerSize] = layerSize;
     layer[layerSize++] = output;
@@ -81,6 +83,8 @@ void genLut(int targetuc) {
           if(vec_equal(b, output2)) goto end2;
         }
       }
+
+      if(!complexCheck(output2)) continue;
 
       thisLayer[thisSize] = output2;
       indexTable[i][thisSize++] = j;

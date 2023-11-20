@@ -2,6 +2,7 @@
 
 #include <x86intrin.h>
 #include <stdbool.h>
+#include <stdint.h>
 #include <stdio.h>
 
 typedef __m128i vec;
