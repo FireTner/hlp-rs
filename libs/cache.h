@@ -1,9 +1,8 @@
 #pragma once
 
-#include <stdint.h>
-#include <string.h>
-
 #include "vec.h"
+
+#include <string.h>
 
 #define CACHE_SIZE (1 << 25)
 
@@ -19,13 +18,7 @@ inline void clearCache() {
 }
 
 inline bool inCache(const vec key, const int depth) {
-  uint32_t pos = 0; 
-  for(int i = 0; i < 4; i++) {
-    pos = _mm_crc32_u32(pos, _mm_extract_epi32(key, i));
-  }
-
-  pos &= cacheMask;
-
+  uint32_t pos = hash(key) & cacheMask;
   const bool a = cache[pos].depth <= depth && vec_equal(cache[pos].key, key);
 
   cache[pos].depth = depth;

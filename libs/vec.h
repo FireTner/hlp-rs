@@ -12,23 +12,45 @@ vec goal;
 int8x16 goalArray;
 int goalMagic[16];
 
+// store vector at pointer location
 inline void vec_store(const vec source, int8x16 *destination) {
   _mm_store_si128((__m128i *)destination, source);
 }
 
+// load vector from pointer location
 inline vec vec_load(int8x16 *source) {
   return _mm_load_si128((__m128i *)&source);
 }
 
+// check for equality between two vectors
 inline bool vec_equal(const vec a, const vec b) {
   const vec c = _mm_xor_si128(a, b);
   return _mm_test_all_zeros(c, c);
 }
 
+// shuffle vector
+// output[i] = value[mask[i]]
 inline vec vec_shuffle(const vec value, const vec mask) {
   return _mm_shuffle_epi8(value, mask);
 }
 
+// hash vector
+inline int hash(const vec value) {
+  int result = 0;
+
+  for(int i = 0; i < 4; i++) {
+    result = _mm_crc32_u32(result, _mm_extract_epi32(value, i));
+  }
+
+  return result;
+}
+
+// make mask for illegal map
+inline int makemask(const vec value, const vec a) {
+  return _mm_movemask_epi8(_mm_cmpeq_epi8(value, a));
+}
+
+// print every element of vector ending with newline
 void vec_print(const vec a) {
   int8x16 b;
   vec_store(a, &b);

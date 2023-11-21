@@ -1,7 +1,7 @@
 #pragma once
 
 #include "vec.h"
-#include "unicount.h"
+#include "complexcheck.h"
 
 vec layer[800];
 int layerConf[800];
@@ -32,7 +32,8 @@ vec layerf(const vec input, const int conf) {
   }
 }
 
-void genLut(int targetuc) {
+void genLut() {
+  // DON'T CHANGE THIS CONSTANT //
   const vec start = _mm_set_epi8(15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0);
   
   for(int conf = 0; conf < (256 * 5); conf++) {
