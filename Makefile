@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -march=native -Ofast -msse4.2 -mavx512bw -mavx512vl
+CFLAGS = -march=native -Ofast -msse4.2
 
 LIBDIR = libs
 OBJDIR = obj

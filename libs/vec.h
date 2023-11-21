@@ -2,6 +2,7 @@
 
 #include <x86intrin.h>
 #include <stdbool.h>
+#include <stdint.h>
 #include <stdio.h>
 
 typedef __m128i vec;
@@ -9,7 +10,7 @@ typedef char __attribute__ ((aligned (16))) int8x16[16];
 
 vec goal;
 int8x16 goalArray;
-short goalMagic[16];
+int goalMagic[16];
 
 inline void vec_store(const vec source, int8x16 *destination) {
   _mm_store_si128((__m128i *)destination, source);
