@@ -67,12 +67,13 @@ void initDistance() {
   memset(distTable4, 100, sizeof(distTable4));
 
   const int a = goalArray[0] | (goalArray[1] << 4) | (goalArray[2] << 8) | (goalArray[3] << 12);
-  distTable1[a] = 0;
   const int b = goalArray[4] | (goalArray[5] << 4) | (goalArray[6] << 8) | (goalArray[7] << 12);
-  distTable2[b] = 0;
   const int c = goalArray[8] | (goalArray[9] << 4) | (goalArray[10] << 8) | (goalArray[11] << 12);
-  distTable3[c] = 0;
   const int d = goalArray[12] | (goalArray[13] << 4) | (goalArray[14] << 8) | (goalArray[15] << 12);
+  
+  distTable1[a] = 0;
+  distTable2[b] = 0;
+  distTable3[c] = 0;
   distTable4[d] = 0;
 
   genDistanceTable(0);
