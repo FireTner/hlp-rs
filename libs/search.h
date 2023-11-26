@@ -19,6 +19,9 @@ bool dfs(const vec input, const int depth, const int prevIndex) {
     const vec output = applyLayer(input, index);
 
     if(_mm_test_all_zeros(output, output)) continue;
+
+    if(distance(output, currentLayer - depth)) continue;
+
     if(dfs(output, depth + 1, index)) return true;
   }
 

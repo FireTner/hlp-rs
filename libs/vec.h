@@ -3,6 +3,7 @@
 #include <x86intrin.h>
 #include <stdbool.h>
 #include <stdio.h>
+#include <stdint.h>
 
 typedef __m128i vec;
 typedef char __attribute__ ((aligned (16))) int8x16[16];
@@ -26,6 +27,17 @@ inline bool vec_equal(const vec a, const vec b) {
 
 inline vec vec_shuffle(const vec value, const vec mask) {
   return _mm_shuffle_epi8(value, mask);
+}
+
+inline uint64_t vec_compact(const vec value) {
+  return _mm_extract_epi64(value, 0) | (_mm_extract_epi64(value, 1) << 4);
+}
+
+inline vec vec_decompact(const short value) {
+  const int a = value & 0xF0F;
+  const int b = (value & 0xF0F0) >> 4;
+
+  return _mm_set_epi64x(b, a);
 }
 
 void vec_print(const vec a) {

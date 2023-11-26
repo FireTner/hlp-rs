@@ -2,6 +2,7 @@
 #include "unicount.h"
 #include "goalmagic.h"
 #include "genlut.h"
+#include "distance.h"
 #include "search.h"
 
 #include <stdio.h>
@@ -9,6 +10,12 @@
 int main() {
   goal = _mm_setr_epi8( 3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5, 8, 9, 7, 9, 3);
   vec_store(goal, &goalArray);
+
+  vec_print(goal);
+  uint64_t a = vec_compact(goal) & 0xFFFF;
+  // printf("\n%8x\n", a);
+  vec_print(vec_decompact(a));
+  printf("\n");
   
   printf("Goal: ");
   vec_print(goal);
@@ -19,7 +26,9 @@ int main() {
   genLut(goal_uc);
   printf("Generated look up table with the size: %d\n", layerSize);
   
-  genMagic();  
+  initDistance();
+  genMagic();
+
   search();
 
   return 0;
