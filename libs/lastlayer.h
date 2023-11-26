@@ -1,15 +1,18 @@
 #pragma once
 
 #include "vec.h"
-#include "genlut.h"
+#include "distance.h"
 
-inline bool lastLayer(const vec input, const int prevIndex) {
+static inline bool lastLayer(const vec input, const int prevIndex) {
   if(distance(input, 1)) return false;
 
   for(int i = 0; i < layerSize; i++) {
     const vec output = vec_shuffle(layer[i], input);
     
-    if(vec_equal(output, goal)) return true;
+    if(vec_equal(output, goal)) {
+      result[currentLayer] = layerConf[i];
+      return true;
+    }
   }
 
   return false;

@@ -2,59 +2,52 @@
 
 #include "vec.h"
 #include "genlut.h"
+#include "applylayer.h"
 
 #include <stdint.h>
 #include <string.h>
 
 char distTable1[65536];
-int total1 = 0;
 char distTable2[65536];
-int total2 = 0;
 char distTable3[65536];
-int total3 = 0;
 char distTable4[65536];
+int total1 = 0;
+int total2 = 0;
+int total3 = 0;
 int total4 = 0;
 
 
 void genDistanceTable(int dist) {
   for(int input = 0; input < 65536; input++) {
-    for(int conf = 0; conf < (256 * 5); conf++) {
+    for(int layeri = 0; layeri < layerSize; layeri++) {
       int a = input & 0xF;
       int b = (input >> 4) & 0xF;
       int c = (input >> 8) & 0xF;
       int d = (input >> 12) & 0xF;
       
       vec inputv = _mm_setr_epi8(a, b, c, d, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-      vec outputv = layerf(inputv, conf);
+      vec outputv = applyLayer(inputv, layer[layeri]);
 
-      int o = _mm_extract_epi8(outputv, 0);
-      o |= _mm_extract_epi8(outputv, 1) << 4;
-      o |= _mm_extract_epi8(outputv, 2) << 8;
-      o |= _mm_extract_epi8(outputv, 3) << 12;
+      int o  = _mm_extract_epi8(outputv, 0);
+          o |= _mm_extract_epi8(outputv, 1) << 4;
+          o |= _mm_extract_epi8(outputv, 2) << 8;
+          o |= _mm_extract_epi8(outputv, 3) << 12;
 
-      if(distTable1[o] == dist) {
-        if(distTable1[input] > dist + 1) {
-          distTable1[input] = dist + 1;
-          total1++;
-        }
+      if(distTable1[o] == dist && (distTable1[input] > dist + 1)) {
+        distTable1[input] = dist + 1;
+        total1++;
       }
-      if(distTable2[o] == dist) {
-        if(distTable2[input] > dist + 1) {
-          distTable2[input] = dist + 1;
-          total2++;
-        }
+      if(distTable2[o] == dist && (distTable2[input] > dist + 1)) {
+        distTable2[input] = dist + 1;
+        total2++;
       }
-      if(distTable3[o] == dist) {
-        if(distTable3[input] > dist + 1) {
-          distTable3[input] = dist + 1;
-          total3++;
-        }
+      if(distTable3[o] == dist && (distTable3[input] > dist + 1)) {
+        distTable3[input] = dist + 1;
+        total3++;
       }
-      if(distTable4[o] == dist) {
-        if(distTable4[input] > dist + 1) {
-          distTable4[input] = dist + 1;
-          total4++;
-        }
+      if(distTable4[o] == dist && (distTable4[input] > dist + 1)) {
+        distTable4[input] = dist + 1;
+        total4++;
       }
     }
   }
@@ -66,9 +59,9 @@ void initDistance() {
   memset(distTable3, 100, sizeof(distTable3));
   memset(distTable4, 100, sizeof(distTable4));
 
-  const int a = goalArray[0] | (goalArray[1] << 4) | (goalArray[2] << 8) | (goalArray[3] << 12);
-  const int b = goalArray[4] | (goalArray[5] << 4) | (goalArray[6] << 8) | (goalArray[7] << 12);
-  const int c = goalArray[8] | (goalArray[9] << 4) | (goalArray[10] << 8) | (goalArray[11] << 12);
+  const int a = goalArray[0]  | (goalArray[1] << 4)  | (goalArray[2] << 8)  | (goalArray[3] << 12);
+  const int b = goalArray[4]  | (goalArray[5] << 4)  | (goalArray[6] << 8)  | (goalArray[7] << 12);
+  const int c = goalArray[8]  | (goalArray[9] << 4)  | (goalArray[10] << 8) | (goalArray[11] << 12);
   const int d = goalArray[12] | (goalArray[13] << 4) | (goalArray[14] << 8) | (goalArray[15] << 12);
   
   distTable1[a] = 0;
@@ -77,16 +70,17 @@ void initDistance() {
   distTable4[d] = 0;
 
   genDistanceTable(0);
-  // printf("1: %d \t2: %d \t3: %d \t4: %d\n", total1, total2, total3, total4);
+  printf("1: %d \t2: %d \t3: %d \t4: %d\n", total1, total2, total3, total4);
   genDistanceTable(1);
-  // printf("1: %d \t2: %d \t3: %d \t4: %d\n", total1, total2, total3, total4);
+  printf("1: %d \t2: %d \t3: %d \t4: %d\n", total1, total2, total3, total4);
   genDistanceTable(2);
-  // printf("1: %d \t2: %d \t3: %d \t4: %d\n", total1, total2, total3, total4);
+  printf("1: %d \t2: %d \t3: %d \t4: %d\n", total1, total2, total3, total4);
   genDistanceTable(3);
-  // printf("1: %d \t2: %d \t3: %d \t4: %d\n", total1, total2, total3, total4);
+  printf("1: %d \t2: %d \t3: %d \t4: %d\n", total1, total2, total3, total4);
 }
 
-inline bool distance(const vec value, const int threshold) {
+static inline bool distance(const vec value, const int threshold) {
+
   int o1  = _mm_extract_epi8(value, 0);
       o1 |= _mm_extract_epi8(value, 1) << 4;
       o1 |= _mm_extract_epi8(value, 2) << 8;

@@ -7,15 +7,14 @@
 
 #include <stdio.h>
 
-int main() {
-  goal = _mm_setr_epi8( 3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5, 8, 9, 7, 9, 3);
-  vec_store(goal, &goalArray);
+// 1, 1, 2, 3, 5, 8, 1, 3, 2, 1, 3, 4, 5, 5, 8, 9 -> 7 deep
+// 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4 -> 4 deep
+// 0, 0, 0, 0, 0, 0, 0, 0, 8, 8, 8, 8, 8, 8, 8, 8 -> 3 deep
+// 3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5, 8, 9, 7, 9, 3 -> pi
 
-  vec_print(goal);
-  uint64_t a = vec_compact(goal) & 0xFFFF;
-  // printf("\n%8x\n", a);
-  vec_print(vec_decompact(a));
-  printf("\n");
+int main() {
+  goal = _mm_setr_epi8(3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5, 8, 9, 7, 9, 3);
+  vec_store(goal, &goalArray);
   
   printf("Goal: ");
   vec_print(goal);

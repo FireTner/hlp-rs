@@ -3,8 +3,8 @@
 #include "vec.h"
 #include "genlut.h"
 
-inline vec applyLayer(const vec input, const int index) {
-  vec result = vec_shuffle(layer[index], input);
+inline vec applyLayer(const vec input, const vec mask) {
+  vec result = vec_shuffle(mask, input);
 
   int8x16 resultArray;
   vec_store(result, &resultArray);

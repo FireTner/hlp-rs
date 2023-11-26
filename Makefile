@@ -17,4 +17,4 @@ run: all
 
 .PHONY: clean
 clean:
-	rm $(OBJDIR)/*
+	del /Q $(OBJDIR)\*
