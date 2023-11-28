@@ -60,25 +60,25 @@ void initDistance() {
   memset(distTable4, 100, sizeof(distTable4));
 
 
-  int a  = goalArray[12];
-      a |= goalArray[13] << 4;
-      a |= goalArray[14] << 8;
-      a |= goalArray[15] << 12;
+  int a  = _mm_extract_epi8(goal, 12);
+      a |= _mm_extract_epi8(goal, 13) << 4;
+      a |= _mm_extract_epi8(goal, 14) << 8;
+      a |= _mm_extract_epi8(goal, 15) << 12;
+
+  int b  = _mm_extract_epi8(goal, 8);
+      b |= _mm_extract_epi8(goal, 9) << 4;
+      b |= _mm_extract_epi8(goal, 10) << 8;
+      b |= _mm_extract_epi8(goal, 11) << 12;
   
-  int b  = goalArray[8];
-      b |= goalArray[9] << 4;
-      b |= goalArray[10] << 8;
-      b |= goalArray[11] << 12;
-
-  int c  = goalArray[4];
-      c |= goalArray[5] << 4;
-      c |= goalArray[6] << 8;
-      c |= goalArray[7] << 12;
-
-  int d  = goalArray[0];
-      d |= goalArray[1] << 4;
-      d |= goalArray[2] << 8;
-      d |= goalArray[3] << 12;
+  int c  = _mm_extract_epi8(goal, 4);
+      c |= _mm_extract_epi8(goal, 5) << 4;
+      c |= _mm_extract_epi8(goal, 6) << 8;
+      c |= _mm_extract_epi8(goal, 7) << 12;
+  
+  int d  = _mm_extract_epi8(goal, 0);
+      d |= _mm_extract_epi8(goal, 1) << 4;
+      d |= _mm_extract_epi8(goal, 2) << 8;
+      d |= _mm_extract_epi8(goal, 3) << 12;
 
   distTable1[a] = 0;
   distTable2[b] = 0;

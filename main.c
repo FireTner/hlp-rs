@@ -15,7 +15,7 @@
 // 3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5, 8, 9, 7, 9, 3 -> pi
 
 int main() {
-  goal = _mm_setr_epi8(3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5, 8, 9, 7, 9, 3);
+  goal = _mm_setr_epi8(0, 0, 0, 0, 4, 4, 4, 4, 0, 0, 0, 0, 4, 4, 4, 4);
   vec_store(goal, &goalArray);
   
   printf("Goal: ");
