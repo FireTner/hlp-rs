@@ -104,30 +104,30 @@ void initDistance() {
 }
 
 static inline bool distance(const vec value, const int threshold) {
-  int o1  = _mm_extract_epi8(value, 0);
-      o1 |= _mm_extract_epi8(value, 1) << 4;
-      o1 |= _mm_extract_epi8(value, 2) << 8;
-      o1 |= _mm_extract_epi8(value, 3) << 12;
-  
-  int o2  = _mm_extract_epi8(value, 4);
-      o2 |= _mm_extract_epi8(value, 5) << 4;
-      o2 |= _mm_extract_epi8(value, 6) << 8;
-      o2 |= _mm_extract_epi8(value, 7) << 12;
+  int a  = _mm_extract_epi8(value, 12);
+      a |= _mm_extract_epi8(value, 13) << 4;
+      a |= _mm_extract_epi8(value, 14) << 8;
+      a |= _mm_extract_epi8(value, 15) << 12;
 
-  int o3  = _mm_extract_epi8(value, 8);
-      o3 |= _mm_extract_epi8(value, 9) << 4;
-      o3 |= _mm_extract_epi8(value, 10) << 8;
-      o3 |= _mm_extract_epi8(value, 11) << 12;
+  int b  = _mm_extract_epi8(value, 8);
+      b |= _mm_extract_epi8(value, 9) << 4;
+      b |= _mm_extract_epi8(value, 10) << 8;
+      b |= _mm_extract_epi8(value, 11) << 12;
   
-  int o4  = _mm_extract_epi8(value, 12);
-      o4 |= _mm_extract_epi8(value, 13) << 4;
-      o4 |= _mm_extract_epi8(value, 14) << 8;
-      o4 |= _mm_extract_epi8(value, 15) << 12;
-
+  int c  = _mm_extract_epi8(value, 4);
+      c |= _mm_extract_epi8(value, 5) << 4;
+      c |= _mm_extract_epi8(value, 6) << 8;
+      c |= _mm_extract_epi8(value, 7) << 12;
+  
+  int d  = _mm_extract_epi8(value, 0);
+      d |= _mm_extract_epi8(value, 1) << 4;
+      d |= _mm_extract_epi8(value, 2) << 8;
+      d |= _mm_extract_epi8(value, 3) << 12;
+  
   if(threshold > distDepth) return false;
-  if(distTable1[o4] > threshold) return true;
-  if(distTable2[o3] > threshold) return true;
-  if(distTable3[o2] > threshold) return true;
-  if(distTable4[o1] > threshold) return true;
+  if(distTable1[a] > threshold) return true;
+  if(distTable2[b] > threshold) return true;
+  if(distTable3[c] > threshold) return true;
+  if(distTable4[d] > threshold) return true;
   return false;
 }
