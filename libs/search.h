@@ -58,7 +58,9 @@ void search() {
     printf(" Depth %d searched", currentLayer);
     printf(" in %.0f ms", clock() / (CLOCKS_PER_SEC / 1000) - startTime);
     printf(" (%d itterations)\n", iter);
+    printf("\tHits: %d \tMisses: %d \tInitialized: %d\n\n", hit, miss, new);
     // printf(" (%d, %d, %d [%.4f])\n", hit, miss, new, ((float)hit)/miss);
+    iter = 0;
   }
 
   printf("Solution is %d deep\n", currentLayer + 1);

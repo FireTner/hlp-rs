@@ -18,6 +18,7 @@ inline void clearCache() {
   memset(&cache, 0, sizeof(cache));
 }
 
+int hit = 0, miss = 0, new = 0;
 inline bool inCache(const vec key, const int depth) {
   uint32_t pos = 0; 
   for(int i = 0; i < 4; i++) {
@@ -28,9 +29,9 @@ inline bool inCache(const vec key, const int depth) {
 
   const bool a = cache[pos].depth <= depth && vec_equal(cache[pos].key, key);
 
-  // if(a) hit++;
-  // else if(vec_equal(cache[pos].key, _mm_setzero_si128())) new++;
-  // else miss++;
+  if(a) hit++;
+  else if(vec_equal(cache[pos].key, _mm_setzero_si128())) new++;
+  else miss++;
 
   cache[pos].depth = depth;
   cache[pos].key = key;

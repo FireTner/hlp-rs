@@ -5,7 +5,8 @@
 
 inline vec applyLayer(const vec input, const vec mask) {
   vec result = vec_shuffle(mask, input);
-
+  iter++;
+  
   int8x16 resultArray;
   vec_store(result, &resultArray);
   

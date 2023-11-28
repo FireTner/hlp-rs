@@ -18,6 +18,8 @@ int main() {
   
   printf("Goal: ");
   vec_print(goal);
+
+  printf("\n");
   
   int goal_uc = ucount(goal);
   printf("goal's unicount: %d\n\n", goal_uc);
