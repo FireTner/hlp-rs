@@ -6,6 +6,7 @@
 #include "applylayer.h"
 #include "lastlayer.h"
 #include "distance.h"
+#include "prettyprint.h"
 
 #include <time.h>
 
@@ -67,7 +68,7 @@ void search() {
   printf("Found in %.0f ms\n", clock() / (CLOCKS_PER_SEC / 1000) - startTime);
 
   for(int i = 0; i <= currentLayer; i++) {
-    printf("%3x ", result[i]);
+    printConf(result[i]);
   }
   printf("\n");
 }
