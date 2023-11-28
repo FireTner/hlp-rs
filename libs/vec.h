@@ -13,7 +13,7 @@ int8x16 goalArray;
 int goalMagic[16];
 int currentLayer = 0;
 int result[50];
-int iter = 0;
+unsigned long iter = 0;
 
 inline void vec_store(const vec source, int8x16 *destination) {
   _mm_store_si128((__m128i *)destination, source);
