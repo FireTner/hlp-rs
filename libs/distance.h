@@ -17,11 +17,6 @@ int total3 = 0;
 int total4 = 0;
 int distDepth = -1;
 
-// 1: 633  2: 263  3: 732  4: 228
-// 1: 22519        2: 6964         3: 18759        4: 11503
-// 1: 46881        2: 38161        3: 46457        4: 44782
-// 1: 47039        2: 43647        3: 47039        4: 47039
-
 void genDistanceTable(int dist) {
   for(int input = 0; input < 65536; input++) {
     for(int layeri = 0; layeri < layerSize; layeri++) {
