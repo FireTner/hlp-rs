@@ -25,7 +25,6 @@ bool dfs(const vec input, const int depth, const int prevIndex) {
   for(int i = 0; i < indexTableSize[prevIndex]; i++) {
     const int index = indexTable[prevIndex][i];
     const vec output = applyLayer(input, layer[index]);
-    iter++;
 
     if(_mm_test_all_zeros(output, output)) continue;
 
@@ -58,9 +57,13 @@ void search() {
     printf("[%s]", outstr);
     printf(" Depth %d searched", currentLayer);
     printf(" in %.0f ms", clock() / (CLOCKS_PER_SEC / 1000) - startTime);
-    printf(" (%d itterations)\n", iter);
+    printf(" (%u itterations)\n", iter);
     printf("\tHits: %d \tMisses: %d \tInitialized: %d\n\n", hit, miss, new);
     // printf(" (%d, %d, %d [%.4f])\n", hit, miss, new, ((float)hit)/miss);
+
+    miss = 0;
+    new = 0;
+    hit = 0;
     iter = 0;
   }
 
