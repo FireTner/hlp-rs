@@ -66,7 +66,7 @@ void initDistance() {
       a |= goalArray[15] << 12;
   
   int b  = goalArray[8];
-      b |= goalArray[0] << 4;
+      b |= goalArray[9] << 4;
       b |= goalArray[10] << 8;
       b |= goalArray[11] << 12;
 
