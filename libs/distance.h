@@ -24,14 +24,14 @@ int distDepth = -1;
 
 void genDistanceTable(int dist) {
   for(int input = 0; input < 65536; input++) {
-    for(int conf = 0; conf < (256 * 5); conf++) {
+    for(int layeri = 0; layeri < layerSize; layeri++) {
       int a = input & 0xF;
       int b = (input >> 4) & 0xF;
       int c = (input >> 8) & 0xF;
       int d = (input >> 12) & 0xF;
       
       vec inputv = _mm_setr_epi8(a, b, c, d, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-      vec outputv = layerf(inputv, conf);
+      vec outputv = vec_shuffle(layer[layeri], inputv);
 
       int o  = _mm_extract_epi8(outputv, 0);
           o |= _mm_extract_epi8(outputv, 1) << 4;
