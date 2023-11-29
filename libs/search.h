@@ -16,8 +16,7 @@
 #define MAX_DEPTH 42
 #endif
 
-
-bool dfs(const vec input, const int depth, const int prevIndex) {
+bool dfs(const vec input, const int depth, const int prevIndex) { 
   if(depth == currentLayer) return lastLayer(input, prevIndex);
   if(inCache(input, depth)) return false;
 

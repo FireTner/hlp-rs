@@ -59,26 +59,25 @@ void initDistance() {
   memset(distTable3, 100, sizeof(distTable3));
   memset(distTable4, 100, sizeof(distTable4));
 
+  int a  = _mm_extract_epi8(goal, 0);
+      a |= _mm_extract_epi8(goal, 1) << 4;
+      a |= _mm_extract_epi8(goal, 2) << 8;
+      a |= _mm_extract_epi8(goal, 3) << 12;
 
-  int a  = _mm_extract_epi8(goal, 12);
-      a |= _mm_extract_epi8(goal, 13) << 4;
-      a |= _mm_extract_epi8(goal, 14) << 8;
-      a |= _mm_extract_epi8(goal, 15) << 12;
+  int b  = _mm_extract_epi8(goal, 4);
+      b |= _mm_extract_epi8(goal, 5) << 4;
+      b |= _mm_extract_epi8(goal, 6) << 8;
+      b |= _mm_extract_epi8(goal, 7) << 12;
 
-  int b  = _mm_extract_epi8(goal, 8);
-      b |= _mm_extract_epi8(goal, 9) << 4;
-      b |= _mm_extract_epi8(goal, 10) << 8;
-      b |= _mm_extract_epi8(goal, 11) << 12;
+  int c  = _mm_extract_epi8(goal, 8);
+      c |= _mm_extract_epi8(goal, 9) << 4;
+      c |= _mm_extract_epi8(goal, 10) << 8;
+      c |= _mm_extract_epi8(goal, 11) << 12;
   
-  int c  = _mm_extract_epi8(goal, 4);
-      c |= _mm_extract_epi8(goal, 5) << 4;
-      c |= _mm_extract_epi8(goal, 6) << 8;
-      c |= _mm_extract_epi8(goal, 7) << 12;
-  
-  int d  = _mm_extract_epi8(goal, 0);
-      d |= _mm_extract_epi8(goal, 1) << 4;
-      d |= _mm_extract_epi8(goal, 2) << 8;
-      d |= _mm_extract_epi8(goal, 3) << 12;
+  int d  = _mm_extract_epi8(goal, 12);
+      d |= _mm_extract_epi8(goal, 13) << 4;
+      d |= _mm_extract_epi8(goal, 14) << 8;
+      d |= _mm_extract_epi8(goal, 15) << 12;
 
   distTable1[a] = 0;
   distTable2[b] = 0;
@@ -99,25 +98,25 @@ void initDistance() {
 }
 
 static inline bool distance(const vec value, const int threshold) {
-  int a  = _mm_extract_epi8(value, 12);
-      a |= _mm_extract_epi8(value, 13) << 4;
-      a |= _mm_extract_epi8(value, 14) << 8;
-      a |= _mm_extract_epi8(value, 15) << 12;
+  int a  = _mm_extract_epi8(value, 0);
+      a |= _mm_extract_epi8(value, 1) << 4;
+      a |= _mm_extract_epi8(value, 2) << 8;
+      a |= _mm_extract_epi8(value, 3) << 12;
+      
+  int b  = _mm_extract_epi8(value, 4);
+      b |= _mm_extract_epi8(value, 5) << 4;
+      b |= _mm_extract_epi8(value, 6) << 8;
+      b |= _mm_extract_epi8(value, 7) << 12;
 
-  int b  = _mm_extract_epi8(value, 8);
-      b |= _mm_extract_epi8(value, 9) << 4;
-      b |= _mm_extract_epi8(value, 10) << 8;
-      b |= _mm_extract_epi8(value, 11) << 12;
-  
-  int c  = _mm_extract_epi8(value, 4);
-      c |= _mm_extract_epi8(value, 5) << 4;
-      c |= _mm_extract_epi8(value, 6) << 8;
-      c |= _mm_extract_epi8(value, 7) << 12;
-  
-  int d  = _mm_extract_epi8(value, 0);
-      d |= _mm_extract_epi8(value, 1) << 4;
-      d |= _mm_extract_epi8(value, 2) << 8;
-      d |= _mm_extract_epi8(value, 3) << 12;
+  int c  = _mm_extract_epi8(value, 8);
+      c |= _mm_extract_epi8(value, 9) << 4;
+      c |= _mm_extract_epi8(value, 10) << 8;
+      c |= _mm_extract_epi8(value, 11) << 12;
+
+  int d  = _mm_extract_epi8(value, 12);
+      d |= _mm_extract_epi8(value, 13) << 4;
+      d |= _mm_extract_epi8(value, 14) << 8;
+      d |= _mm_extract_epi8(value, 15) << 12;
   
   if(threshold > distDepth) return false;
   if(distTable1[a] > threshold) return true;

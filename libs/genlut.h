@@ -10,6 +10,8 @@ int layerSize = 0;
 int indexTable[800][800];
 int indexTableSize[800];
 
+int pairs = 0;
+
 vec subComp(const vec a, const vec b) {
   return _mm_max_epi8(_mm_sub_epi8(a, b), _mm_setzero_si128());
 }
@@ -69,19 +71,22 @@ void genLut(int targetuc) {
         if(vec_equal(layer[k], output2)) goto end2;
       }
 
+      // check if in this pair
       for(int k = 0; k < thisSize; k++) {
         if(vec_equal(thisLayer[k], output2)) goto end2;
       }
 
+      // check if in other pairs
       for(int x = 0; x < i; x++) {
         for(int y = 0; y < indexTableSize[x]; y++) {
           const vec a = layer[x];
           const vec b = vec_shuffle(layer[indexTable[x][y]], a);
 
-          if(vec_equal(b, output2)) goto end2;
+          if(vec_equal(output2, b)) goto end2;
         }
       }
 
+      pairs++;
       thisLayer[thisSize] = output2;
       indexTable[i][thisSize++] = j;
       end2: continue;

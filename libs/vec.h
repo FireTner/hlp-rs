@@ -5,13 +5,17 @@
 #include <stdio.h>
 #include <stdint.h>
 
+#ifndef START_DEPTH
+#define START_DEPTH 6
+#endif
+
 typedef __m128i vec;
 typedef char __attribute__ ((aligned (16))) int8x16[16];
 
 vec goal;
 int8x16 goalArray;
 int goalMagic[16];
-int currentLayer = 0;
+int currentLayer = START_DEPTH - 1;
 int result[50];
 unsigned long iter = 0;
 
