@@ -2,6 +2,7 @@
 
 #include "vec.h"
 #include "unicount.h"
+#include "lastlayerable.h"
 
 vec layer[800];
 int layerConf[800];
@@ -9,6 +10,9 @@ int layerSize = 0;
 
 int indexTable[800][800];
 int indexTableSize[800];
+
+bool lastLayerTable[800];
+int lastLayers = 0;
 
 int pairs = 0;
 
@@ -48,6 +52,9 @@ void genLut(int targetuc) {
       if(vec_equal(layer[i], output)) goto end;
     }
 
+    if(lastLayarable(output)) lastLayers++;
+
+    lastLayerTable[layerSize] = lastLayarable(output);
     layerConf[layerSize] = conf;
     indexTable[799][layerSize] = layerSize;
     layer[layerSize++] = output;

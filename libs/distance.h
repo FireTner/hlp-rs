@@ -20,6 +20,8 @@ int distDepth = -1;
 void genDistanceTable(int dist) {
   for(int input = 0; input < 65536; input++) {
     for(int layeri = 0; layeri < layerSize; layeri++) {
+      if(!lastLayerTable[layeri]) continue;
+
       int a = input & 0xF;
       int b = (input >> 4) & 0xF;
       int c = (input >> 8) & 0xF;
@@ -33,19 +35,19 @@ void genDistanceTable(int dist) {
           o |= _mm_extract_epi8(outputv, 2) << 8;
           o |= _mm_extract_epi8(outputv, 3) << 12;
 
-      if(distTable1[o] == dist && (distTable1[input] > dist + 1)) {
+      if(distTable1[o] == dist && distTable1[input] == 100) {
         distTable1[input] = dist + 1;
         total1++;
       }
-      if(distTable2[o] == dist && (distTable2[input] > dist + 1)) {
+      if(distTable2[o] == dist && distTable2[input] == 100) {
         distTable2[input] = dist + 1;
         total2++;
       }
-      if(distTable3[o] == dist && (distTable3[input] > dist + 1)) {
+      if(distTable3[o] == dist && distTable3[input] == 100) {
         distTable3[input] = dist + 1;
         total3++;
       }
-      if(distTable4[o] == dist && (distTable4[input] > dist + 1)) {
+      if(distTable4[o] == dist && distTable4[input] == 100) {
         distTable4[input] = dist + 1;
         total4++;
       }

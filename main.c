@@ -27,7 +27,8 @@ int main() {
   printf("goal's unicount: %d\n\n", goal_uc);
 
   genLut(goal_uc);
-  printf("Generated look up table with the size: %d (%d)\n", layerSize, pairs);
+  printf("Generated look up table: %d (%d)\n", layerSize, pairs);
+  printf("\tsize: %d \tpairs: %d \tlast layers: %d\n", layerSize, pairs, lastLayers);
   
   initDistance();
   genMagic();
