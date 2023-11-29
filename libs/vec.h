@@ -6,7 +6,7 @@
 #include <stdint.h>
 
 #ifndef START_DEPTH
-#define START_DEPTH 6
+#define START_DEPTH 1
 #endif
 
 typedef __m128i vec;

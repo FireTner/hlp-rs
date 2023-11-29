@@ -1,3 +1,6 @@
+#define START_DEPTH 1
+#define MAX_DEPTH 19
+
 #include "vec.h"
 #include "unicount.h"
 #include "goalmagic.h"
@@ -15,7 +18,7 @@
 // 3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5, 8, 9, 7, 9, 3 -> pi
 
 int main() {
-  goal = _mm_setr_epi8(3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5, 8, 9, 7, 9, 3);
+  goal = _mm_setr_epi8(1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4);
   vec_store(goal, &goalArray);
   
   printf("Goal: ");
