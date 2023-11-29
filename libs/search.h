@@ -10,10 +10,12 @@
 
 #include <time.h>
 
+#ifndef MAX_DEPTH
 #ifdef PROFILE
 #define MAX_DEPTH 8
 #else
 #define MAX_DEPTH 42
+#endif
 #endif
 
 bool dfs(const vec input, const int depth, const int prevIndex) { 
