@@ -11,11 +11,22 @@ char distTable1[(1 << 20)];
 char distTable2[(1 << 20)];
 char distTable3[(1 << 20)];
 char distTable4[(1 << 20)];
+char distTable5[(1 << 20)];
 int total1 = 0;
 int total2 = 0;
 int total3 = 0;
 int total4 = 0;
+int total5 = 0;
 int distDepth = -1;
+
+inline int doShit(const vec value, const int start) {
+  int a  = _mm_extract_epi8(value, (start + 0) & 0xF);
+      a |= _mm_extract_epi8(value, (start + 1) & 0xF) << 4;
+      a |= _mm_extract_epi8(value, (start + 2) & 0xF) << 8;
+      a |= _mm_extract_epi8(value, (start + 3) & 0xF) << 12;
+      a |= _mm_extract_epi8(value, (start + 4) & 0xF) << 16;
+  return a;
+}
 
 void genDistanceTable(int dist) {
   for(int input = 0; input < (1 << 20); input++) {
@@ -53,6 +64,10 @@ void genDistanceTable(int dist) {
         distTable4[input] = dist + 1;
         total4++;
       }
+      if(distTable5[o] == dist && distTable5[input] == 100) {
+        distTable5[input] = dist + 1;
+        total5++;
+      }
     }
   }
 }
@@ -62,35 +77,19 @@ void initDistance() {
   memset(distTable2, 100, sizeof(distTable2));
   memset(distTable3, 100, sizeof(distTable3));
   memset(distTable4, 100, sizeof(distTable4));
+  memset(distTable5, 100, sizeof(distTable5));
 
-  int a  = _mm_extract_epi8(goal, 0);
-      a |= _mm_extract_epi8(goal, 1) << 4;
-      a |= _mm_extract_epi8(goal, 2) << 8;
-      a |= _mm_extract_epi8(goal, 3) << 12;
-      a |= _mm_extract_epi8(goal, 4) << 16;
-
-  int b  = _mm_extract_epi8(goal, 4);
-      b |= _mm_extract_epi8(goal, 5) << 4;
-      b |= _mm_extract_epi8(goal, 6) << 8;
-      b |= _mm_extract_epi8(goal, 7) << 12;
-      b |= _mm_extract_epi8(goal, 8) << 16;
-
-  int c  = _mm_extract_epi8(goal, 8);
-      c |= _mm_extract_epi8(goal, 9) << 4;
-      c |= _mm_extract_epi8(goal, 10) << 8;
-      c |= _mm_extract_epi8(goal, 11) << 12;
-      c |= _mm_extract_epi8(goal, 12) << 16;
-  
-  int d  = _mm_extract_epi8(goal, 12);
-      d |= _mm_extract_epi8(goal, 13) << 4;
-      d |= _mm_extract_epi8(goal, 14) << 8;
-      d |= _mm_extract_epi8(goal, 15) << 12;
-      d |= _mm_extract_epi8(goal, 0) << 16;
+  int a = doShit(goal, 0);
+  int b = doShit(goal, 4);
+  int c = doShit(goal, 8);
+  int d = doShit(goal, 12);
+  int e = doShit(goal, 2);
 
   distTable1[a] = 0;
   distTable2[b] = 0;
   distTable3[c] = 0;
   distTable4[d] = 0;
+  distTable5[e] = 0;
 
   int Total = 0;
   int prevTotal = -1;
@@ -98,42 +97,29 @@ void initDistance() {
   while(Total != prevTotal) {
     prevTotal = Total;
     genDistanceTable(++distDepth);
-    Total = total1 + total2 + total3 + total4;
-    printf("%2d: \t1: %5d \t2: %5d \t3: %5d \t4: %5d\n", distDepth, total1, total2, total3, total4);
+    Total = total1 + total2 + total3 + total4 + total5;
+    printf("%2d: \t1: %5d \t2: %5d \t3: %5d \t4: %5d \t5: %d\n", distDepth, total1, total2, total3, total4, total5);
   }
 
   distDepth--;
 }
 
 static inline bool distance(const vec value, const int threshold) {
-  int a  = _mm_extract_epi8(value, 0);
-      a |= _mm_extract_epi8(value, 1) << 4;
-      a |= _mm_extract_epi8(value, 2) << 8;
-      a |= _mm_extract_epi8(value, 3) << 12;
-      a |= _mm_extract_epi8(value, 4) << 16;
-      
-  int b  = _mm_extract_epi8(value, 4);
-      b |= _mm_extract_epi8(value, 5) << 4;
-      b |= _mm_extract_epi8(value, 6) << 8;
-      b |= _mm_extract_epi8(value, 7) << 12;
-      b |= _mm_extract_epi8(value, 8) << 16;
+  int a = doShit(value, 0);
 
-  int c  = _mm_extract_epi8(value, 8);
-      c |= _mm_extract_epi8(value, 9) << 4;
-      c |= _mm_extract_epi8(value, 10) << 8;
-      c |= _mm_extract_epi8(value, 11) << 12;
-      c |= _mm_extract_epi8(value, 12) << 16;
+  int b = doShit(value, 4);
 
-  int d  = _mm_extract_epi8(value, 12);
-      d |= _mm_extract_epi8(value, 13) << 4;
-      d |= _mm_extract_epi8(value, 14) << 8;
-      d |= _mm_extract_epi8(value, 15) << 12;
-      d |= _mm_extract_epi8(value, 0) << 16;
+  int c = doShit(value, 8);
+  
+  int d = doShit(value, 12);
+
+  int e = doShit(value, 2);
   
   if(threshold > distDepth) return false;
   if(distTable1[a] > threshold) return true;
   if(distTable2[b] > threshold) return true;
   if(distTable3[c] > threshold) return true;
   if(distTable4[d] > threshold) return true;
+  if(distTable5[e] > threshold) return true;
   return false;
 }
