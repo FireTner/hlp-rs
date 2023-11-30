@@ -20,7 +20,7 @@ int distDepth = -1;
 void genDistanceTable(int dist) {
   for(int input = 0; input < 65536; input++) {
     for(int layeri = 0; layeri < layerSize; layeri++) {
-      if(!lastLayerTable[layeri]) continue;
+      if(dist == 0 && !lastLayerTable[layeri]) continue;
 
       int a = input & 0xF;
       int b = (input >> 4) & 0xF;

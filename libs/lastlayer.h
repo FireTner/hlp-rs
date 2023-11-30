@@ -8,7 +8,7 @@ static inline bool lastLayer(const vec input, const int prevIndex) {
     const vec output = vec_shuffle(layer[indexTable[prevIndex][i]], input);
     iter++;
     if(vec_equal(output, goal)) {
-      result[currentLayer] = layerConf[i];
+      result[currentLayer] = layerConf[indexTable[prevIndex][i]];
       return true;
     }
   }
