@@ -1,7 +1,6 @@
 #pragma once
 
 #include "vec.h"
-#include "distance.h"
 
 static inline bool lastLayer(const vec input, const int prevIndex) {
   for(int i = 0; i < indexTableSize[prevIndex]; i++) {

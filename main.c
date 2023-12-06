@@ -5,7 +5,6 @@
 #include "unicount.h"
 #include "goalmagic.h"
 #include "genlut.h"
-#include "distance.h"
 #include "search.h"
 
 #include <stdio.h>
@@ -18,7 +17,7 @@
 // 3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5, 8, 9, 7, 9, 3 -> pi
 
 int main() {
-  goal = _mm_setr_epi8(3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5, 8, 9, 7, 9, 3);
+  goal = _mm_setr_epi8(3, 2, 4, 3, 0xF, 6, 0xA, 8, 8, 8, 5, 0xA, 3, 0, 8, 0xD);
   vec_store(goal, &goalArray);
   
   printf("Goal: ");
@@ -33,7 +32,6 @@ int main() {
   printf("Generated look up table: %d (%d)\n", layerSize, pairs);
   printf("\tsize: %d \tpairs: %d \tlast layers: %d\n", layerSize, pairs, lastLayers);
   
-  initDistance();
   genMagic();
 
   search();
